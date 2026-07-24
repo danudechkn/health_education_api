@@ -71,6 +71,24 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+
+db.Disease.hasMany(db.Content, {
+  foreignKey: "disease_id",
+  as: "content",
+});
+
+db.Department.hasMany(db.Content, {
+  foreignKey: "department_id",
+  as: "content",
+});
+
+db.Category.hasMany(db.Content, {
+  foreignKey: "category_id",
+  as: "content",
+});
+
+
+
 // 5. ส่งออกระบบไปใช้ร่วมกัน
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
