@@ -87,7 +87,9 @@ db.Category.hasMany(db.Content, {
   as: "content",
 });
 
-
+db.Content.belongsTo(db.Disease, { foreignKey: "disease_id", as: "disease" });
+db.Content.belongsTo(db.Department, { foreignKey: "department_id", as: "department" });
+db.Content.belongsTo(db.Category, { foreignKey: "category_id", as: "category" });
 
 // 5. ส่งออกระบบไปใช้ร่วมกัน
 db.sequelize = sequelize;

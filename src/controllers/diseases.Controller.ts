@@ -26,4 +26,12 @@ export class DiseasesController {
             res.status(400).json({ success: false, message: error.message || String(error), data: null });
         }
     }
+    static async updatediseases(req: Request, res: Response) {
+        try {
+            const data = await DiseasesService.updatediseases(Number(req.params.id), req.body);
+            res.status(200).json({ success: true, ...data });
+        } catch (error: any) {
+            res.status(400).json({ success: false, message: error.message || String(error), data: null });
+        }
+    }
 }

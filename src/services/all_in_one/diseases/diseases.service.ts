@@ -140,38 +140,37 @@ export class DiseasesService {
         return data;
     }
 
-    // ─── UPDATE ────────────────────────────────────────────────────────────────
-    // static async update(id: number, body: Record<string, any>) {
-    //     const disease = await db.Disease.findOne({ where: { id } });
+    static async updatediseases(id: number, body: Record<string, any>) {
+        const disease = await db.Disease.findOne({ where: { id } });
 
-    //     if (!disease) {
-    //         throw new Error("Disease not found");
-    //     }
+        if (!disease) {
+            throw new Error("Disease not found");
+        }
 
-    //     const {
-    //         name_th,
-    //         name_en,
-    //         alphabet_group,
-    //         tab_details,
-    //         tab_symptoms,
-    //         tab_situation,
-    //         tab_prevention,
-    //         status,
-    //     } = body;
+        const {
+            name_th,
+            name_en,
+            alphabet_group,
+            tab_details,
+            tab_symptoms,
+            tab_situation,
+            tab_prevention,
+            status,
+        } = body;
 
-    //     await disease.update({
-    //         ...(name_th !== undefined && { name_th }),
-    //         ...(name_en !== undefined && { name_en }),
-    //         ...(alphabet_group !== undefined && { alphabet_group }),
-    //         ...(tab_details !== undefined && { tab_details }),
-    //         ...(tab_symptoms !== undefined && { tab_symptoms }),
-    //         ...(tab_situation !== undefined && { tab_situation }),
-    //         ...(tab_prevention !== undefined && { tab_prevention }),
-    //         ...(status !== undefined && { status }),
-    //     });
+        await disease.update({
+            ...(name_th !== undefined && { name_th }),
+            ...(name_en !== undefined && { name_en }),
+            ...(alphabet_group !== undefined && { alphabet_group }),
+            ...(tab_details !== undefined && { tab_details }),
+            ...(tab_symptoms !== undefined && { tab_symptoms }),
+            ...(tab_situation !== undefined && { tab_situation }),
+            ...(tab_prevention !== undefined && { tab_prevention }),
+            ...(status !== undefined && { status }),
+        });
 
-    //     return { data: disease };
-    // }
+        return { data: disease };
+    }
 
     // ─── DELETE (soft delete – set status = 0) ─────────────────────────────────
     // static async remove(id: number) {

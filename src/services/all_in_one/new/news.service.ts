@@ -1,3 +1,4 @@
+import { count } from "node:console";
 import db from "../../../models/it-center/index";
 
 export class NewService {
@@ -10,6 +11,11 @@ export class NewService {
             where: {
                 category_id: 1,
             },
+            include: [{
+                model: db.Department,
+                as: "department",
+                attributes: ["id", "name"]
+            }],
             attributes: [
                 "id",
                 "title",
@@ -29,7 +35,7 @@ export class NewService {
                 limit,
                 total: count,
                 totalPages: Math.ceil(count / limit),
-            },
+            }
         };
     }
     static async ActivityNewindex(query: Record<string, any>) {
@@ -41,6 +47,11 @@ export class NewService {
             where: {
                 category_id: 2,
             },
+            include: [{
+                model: db.Department,
+                as: "department",
+                attributes: ["id", "name"]
+            }],
             attributes: [
                 "id",
                 "title",
@@ -60,7 +71,7 @@ export class NewService {
                 limit,
                 total: count,
                 totalPages: Math.ceil(count / limit),
-            },
+            }
         };
     }
     static async getNewsById(id: string) {
@@ -108,26 +119,28 @@ export class NewService {
         const {
             id,
             title,
+            category_id,
             description,
             cover_image,
             media_url,
-            category_id,
             status,
             view_count
         } = query;
         if (!id) {
             throw new Error("id is required");
-
+        }
+        if (!category_id) {
+            throw new Error("category_id is required");
         }
         const data = await db.Content.update({
             title,
+            category_id,
             description,
             cover_image,
             media_url,
-            category_id,
             status,
             view_count
-        }, { where: { id } });
+        }, { where: { id, category_id } });
         return data;
     }
 }
