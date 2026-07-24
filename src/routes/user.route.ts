@@ -19,8 +19,8 @@ const router = Router();
 router.get("/all-in-one", AllInOneController.index);
 
 // News
-router.use("/news", NewsController.ActivityNewindex);
-router.use("/advertise", NewsController.AdvertiseNewindex);
+router.get("/news", NewsController.ActivityNewindex);
+router.get("/advertise", NewsController.AdvertiseNewindex);
 router.get("/news/:id", NewsController.getNewsById);
 router.post("/add-news", NewsController.addnews);
 router.put("/update-news", NewsController.updateNews);

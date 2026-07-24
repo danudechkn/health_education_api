@@ -4,7 +4,7 @@ import db from "../../../models/it-center/index";
 export class NewService {
     static async AdvertiseNewindex(query: Record<string, any>) {
         const page = parseInt(query?.page) || 1;
-        const limit = parseInt(query?.limit) || 10;
+        const limit = parseInt(query?.limit) || 12;
         const offset = (page - 1) * limit;
 
         const { rows, count } = await db.Content.findAndCountAll({
@@ -22,6 +22,8 @@ export class NewService {
                 "description",
                 "cover_image",
                 "created_at",
+                "view_count",
+                "status"
             ],
             limit,
             offset,
@@ -40,7 +42,7 @@ export class NewService {
     }
     static async ActivityNewindex(query: Record<string, any>) {
         const page = parseInt(query?.page) || 1;
-        const limit = parseInt(query?.limit) || 10;
+        const limit = parseInt(query?.limit) || 12;
         const offset = (page - 1) * limit;
 
         const { rows, count } = await db.Content.findAndCountAll({
@@ -58,6 +60,8 @@ export class NewService {
                 "description",
                 "cover_image",
                 "created_at",
+                "view_count",
+                "status"
             ],
             limit,
             offset,

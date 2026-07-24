@@ -2,20 +2,16 @@ import db from "../../../models/it-center/index";
 
 export class DepartmentService {
     static async ListDepartment(query: Record<string, any>) {
-        const page = parseInt(query?.page) || 1;
-        const limit = parseInt(query?.limit) || 10;
-        const offset = (page - 1) * limit;
-        const data = await db.Department.findAndCountAll({
+        const data = await db.Department.findAll({
             attributes: [
                 "id",
                 "name",
             ],
-            limit,
-            offset,
             order: [["created_at", "DESC"]],
         });
+
         return {
-            data: data.rows,
+            data,
         };
     }
     // static async getDepartmentById(id: number) {
