@@ -17,7 +17,7 @@ class Content extends Model<
     declare department_id: number | null;
     declare title: string;
     declare description: string | null;
-    declare cover_image: string | null;
+    declare cover_image: Buffer | string | null;
     declare media_url: string | null;
     declare status: CreationOptional<boolean | null>;
     declare view_count: CreationOptional<number | null>;
@@ -53,11 +53,11 @@ Content.init(
             allowNull: false,
         },
         description: {
-            type: DataTypes.TEXT("long"), // Maps to longtext in MySQL
+            type: DataTypes.TEXT,
             allowNull: true,
         },
         cover_image: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.BLOB,
             allowNull: true,
         },
         media_url: {
