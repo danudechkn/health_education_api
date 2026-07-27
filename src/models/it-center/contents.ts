@@ -14,6 +14,7 @@ class Content extends Model<
     declare id: CreationOptional<number>;
     declare category_id: number;
     declare disease_id: number | null;
+    declare health_id: number | null;
     declare department_id: number | null;
     declare title: string;
     declare description: string | null;
@@ -41,6 +42,10 @@ Content.init(
             allowNull: false,
         },
         disease_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        health_id: {
             type: DataTypes.INTEGER,
             allowNull: true,
         },

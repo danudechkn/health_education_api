@@ -26,6 +26,22 @@ export class NewsController {
             res.status(400).json({ success: false, message: error, data: null });
         }
     }
+    static async InfographicsNewindex(req: Request, res: Response) {
+        try {
+            const data = await NewService.InfographicsNewindex(req.query);
+            res.status(200).json({ success: true, ...data });
+        } catch (error: any) {
+            res.status(400).json({ success: false, message: error.message || error, data: null });
+        }
+    }
+    static async MultimediaNewindex(req: Request, res: Response) {
+        try {
+            const data = await NewService.MultimediaNewindex(req.query);
+            res.status(200).json({ success: true, ...data });
+        } catch (error: any) {
+            res.status(400).json({ success: false, message: error.message || error, data: null });
+        }
+    }
     static async addnews(req: Request, res: Response) {
         try {
             const data = await NewService.addNews(req.body);

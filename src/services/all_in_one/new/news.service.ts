@@ -83,12 +83,92 @@ export class NewService {
         }
     }
 
+    static async InfographicsNewindex(query: Record<string, any>) {
+        try {
+            const page = parseInt(query?.page) || 1;
+            const limit = parseInt(query?.limit) || 10;
+            const offset = (page - 1) * limit;
+            const health_id = query?.health_id ? parseInt(query.health_id) : undefined;
+
+            const where: any = {
+                category_id: 3,
+            };
+            if (health_id !== undefined && !isNaN(health_id)) {
+                where.health_id = health_id;
+            }
+
+            const { rows, count } = await db.Content.findAndCountAll({
+                where,
+                include: [{
+                    model: db.Department,
+                    as: "department",
+                    attributes: ["id", "name"]
+                }],
+                attributes: [
+                    "id", "title", "description", "cover_image",
+                    "health_id", "created_at"
+                ],
+                limit,
+                offset,
+                order: [["created_at", "DESC"]],
+            });
+
+            return {
+                data: rows.map((row: any) => this.formatImage(row)),
+                pagination: {
+                    page,
+                    limit,
+                    total: count,
+                    totalPages: Math.ceil(count / limit),
+                }
+            };
+        } catch (error: any) {
+            throw new Error(`InfographicsNewindex Error: ${error.message}`);
+        }
+    }
+
+    static async MultimediaNewindex(query: Record<string, any>) {
+        try {
+            const page = parseInt(query?.page) || 1;
+            const limit = parseInt(query?.limit) || 10;
+            const offset = (page - 1) * limit;
+
+            const { rows, count } = await db.Content.findAndCountAll({
+                where: { category_id: 4 },
+                include: [{
+                    model: db.Department,
+                    as: "department",
+                    attributes: ["id", "name"]
+                }],
+                attributes: [
+                    "id", "title", "description", "cover_image",
+                    "created_at"
+                ],
+                limit,
+                offset,
+                order: [["created_at", "DESC"]],
+            });
+
+            return {
+                data: rows.map((row: any) => this.formatImage(row)),
+                pagination: {
+                    page,
+                    limit,
+                    total: count,
+                    totalPages: Math.ceil(count / limit),
+                }
+            };
+        } catch (error: any) {
+            throw new Error(`MultimediaNewindex Error: ${error.message}`);
+        }
+    }
+
     static async getNewsById(id: string) {
         try {
             const item = await db.Content.findByPk(id, {
                 attributes: [
                     "id", "category_id", "title", "description",
-                    "cover_image", "media_url", "status",
+                    "cover_image", "media_url", "health_id", "status",
                     "view_count", "created_at",
                 ]
             });
@@ -104,7 +184,7 @@ export class NewService {
 
     static async addNews(query: any) {
         try {
-            const { title, description, cover_image, media_url, category_id, status, view_count = 0 } = query;
+            const { title, description, cover_image, media_url, category_id, health_id, status, view_count = 0 } = query;
 
             let parsed_cover_image = cover_image;
             if (cover_image && typeof cover_image === 'string') {
@@ -114,7 +194,7 @@ export class NewService {
 
             const data = await db.Content.create({
                 title, description, cover_image: parsed_cover_image,
-                media_url, category_id, status, view_count
+                media_url, category_id, health_id, status, view_count
             });
             return this.formatImage(data);
         } catch (error: any) {
@@ -124,7 +204,7 @@ export class NewService {
 
     static async updateNews(query: any) {
         try {
-            const { id, title, category_id, description, cover_image, media_url, status, view_count } = query;
+            const { id, title, category_id, description, cover_image, media_url, health_id, status, view_count } = query;
             if (!id) throw new Error("id is required");
             if (!category_id) throw new Error("category_id is required");
 
@@ -136,7 +216,7 @@ export class NewService {
 
             const data = await db.Content.update({
                 title, category_id, description, cover_image: parsed_cover_image,
-                media_url, status, view_count
+                media_url, health_id, status, view_count
             }, { where: { id, category_id } });
             return data;
         } catch (error: any) {
