@@ -25,7 +25,7 @@ router.get("/infographics", NewsController.InfographicsNewindex);
 router.get("/multimedia", NewsController.MultimediaNewindex);
 router.get("/news/:id", NewsController.getNewsById);
 router.post("/add-news", NewsController.addnews);
-router.put("/update-news", NewsController.updateNews);
+router.put("/update-news/:id", NewsController.updateNews);
 
 // Survey
 router.post("/add-active-survey", SurveyController.addActiveSurvey);

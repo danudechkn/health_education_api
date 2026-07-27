@@ -202,9 +202,9 @@ export class NewService {
         }
     }
 
-    static async updateNews(query: any) {
+    static async updateNews(id: number, body: any) {
         try {
-            const { id, title, category_id, description, cover_image, media_url, health_id, status, view_count } = query;
+            const { title, category_id, description, cover_image, media_url, health_id, status, view_count } = body;
             if (!id) throw new Error("id is required");
             if (!category_id) throw new Error("category_id is required");
 

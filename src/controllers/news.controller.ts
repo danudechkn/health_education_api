@@ -52,8 +52,9 @@ export class NewsController {
     }
     static async updateNews(req: Request, res: Response) {
         try {
-            const data = await NewService.updateNews(req.body);
-            res.status(200).json({ success: true, updatedRows: data[0] });
+            const id = Number(req.params.id);
+            const data = await NewService.updateNews(id, req.body);
+            res.status(200).json({ success: true, ...data });
         } catch (error: any) {
             res.status(400).json({ success: false, message: error.message || String(error), data: null });
         }
