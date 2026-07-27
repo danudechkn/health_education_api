@@ -14,10 +14,11 @@ class Content extends Model<
     declare id: CreationOptional<number>;
     declare category_id: number;
     declare disease_id: number | null;
+    declare health_id: number | null;
     declare department_id: number | null;
     declare title: string;
     declare description: string | null;
-    declare cover_image: string | null;
+    declare cover_image: Buffer | string | null;
     declare media_url: string | null;
     declare status: CreationOptional<boolean | null>;
     declare view_count: CreationOptional<number | null>;
@@ -44,6 +45,10 @@ Content.init(
             type: DataTypes.INTEGER,
             allowNull: true,
         },
+        health_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
         department_id: {
             type: DataTypes.INTEGER,
             allowNull: true,
@@ -57,7 +62,7 @@ Content.init(
             allowNull: true,
         },
         cover_image: {
-            type: DataTypes.STRING(255),
+            type: DataTypes.BLOB("long"),
             allowNull: true,
         },
         media_url: {

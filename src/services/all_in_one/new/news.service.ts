@@ -74,6 +74,85 @@ export class NewService {
             }
         };
     }
+    static async InfographicsNewindex(query: Record<string, any>) {
+        const page = parseInt(query?.page) || 1;
+        const limit = parseInt(query?.limit) || 10;
+        const offset = (page - 1) * limit;
+        const health_id = query?.health_id ? parseInt(query.health_id) : undefined;
+
+        const where: any = {
+            category_id: 3,
+        };
+        if (health_id !== undefined && !isNaN(health_id)) {
+            where.health_id = health_id;
+        }
+
+        const { rows, count } = await db.Content.findAndCountAll({
+            where,
+            include: [{
+                model: db.Department,
+                as: "department",
+                attributes: ["id", "name"]
+            }],
+            attributes: [
+                "id",
+                "title",
+                "description",
+                "cover_image",
+                "health_id",
+                "created_at",
+            ],
+            limit,
+            offset,
+            order: [["created_at", "DESC"]],
+        });
+
+        return {
+            data: rows,
+            pagination: {
+                page,
+                limit,
+                total: count,
+                totalPages: Math.ceil(count / limit),
+            }
+        };
+    }
+    static async MultimediaNewindex(query: Record<string, any>) {
+        const page = parseInt(query?.page) || 1;
+        const limit = parseInt(query?.limit) || 10;
+        const offset = (page - 1) * limit;
+
+        const { rows, count } = await db.Content.findAndCountAll({
+            where: {
+                category_id: 4,
+            },
+            include: [{
+                model: db.Department,
+                as: "department",
+                attributes: ["id", "name"]
+            }],
+            attributes: [
+                "id",
+                "title",
+                "description",
+                "cover_image",
+                "created_at",
+            ],
+            limit,
+            offset,
+            order: [["created_at", "DESC"]],
+        });
+
+        return {
+            data: rows,
+            pagination: {
+                page,
+                limit,
+                total: count,
+                totalPages: Math.ceil(count / limit),
+            }
+        };
+    }
     static async getNewsById(id: string) {
         const item = await db.Content.findByPk(id, {
             attributes: [
@@ -83,6 +162,7 @@ export class NewService {
                 "description",
                 "cover_image",
                 "media_url",
+                "health_id",
                 "status",
                 "view_count",
                 "created_at",
@@ -101,6 +181,7 @@ export class NewService {
             cover_image,
             media_url,
             category_id,
+            health_id,
             status,
             view_count = 0
         } = query;
@@ -110,6 +191,7 @@ export class NewService {
             cover_image,
             media_url,
             category_id,
+            health_id,
             status,
             view_count
         });
@@ -123,6 +205,7 @@ export class NewService {
             description,
             cover_image,
             media_url,
+            health_id,
             status,
             view_count
         } = query;
@@ -138,6 +221,7 @@ export class NewService {
             description,
             cover_image,
             media_url,
+            health_id,
             status,
             view_count
         }, { where: { id, category_id } });

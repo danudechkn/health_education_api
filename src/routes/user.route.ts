@@ -21,6 +21,9 @@ router.get("/all-in-one", AllInOneController.index);
 // News
 router.use("/news", NewsController.ActivityNewindex);
 router.use("/advertise", NewsController.AdvertiseNewindex);
+
+router.use("/infographics", NewsController.InfographicsNewindex);
+router.use("/multimedia", NewsController.MultimediaNewindex);
 router.get("/news/:id", NewsController.getNewsById);
 router.post("/add-news", NewsController.addnews);
 router.put("/update-news", NewsController.updateNews);
