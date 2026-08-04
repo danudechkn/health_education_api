@@ -12,5 +12,7 @@ const router = express.Router();
 
 // router.get("/mapAll", AllChoiceController.mapAll);
 router.get("/contents/:id/image", NewsController.getContentImage);
+router.get("/categories", NewsController.getCategories);
+router.get("/health-categories", NewsController.getHealthCategories);
 
 export default router;

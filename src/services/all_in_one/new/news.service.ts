@@ -91,12 +91,16 @@ export class NewService {
             const limit = parseInt(query?.limit) || 10;
             const offset = (page - 1) * limit;
             const health_id = query?.health_id ? parseInt(query.health_id) : undefined;
+            const disease_id = query?.disease_id ? parseInt(query.disease_id) : undefined;
 
             const where: any = {
                 category_id: 3,
             };
             if (health_id !== undefined && !isNaN(health_id)) {
                 where.health_id = health_id;
+            }
+            if (disease_id !== undefined && !isNaN(disease_id)) {
+                where.disease_id = disease_id;
             }
 
             const { rows, count } = await db.Content.findAndCountAll({
@@ -108,7 +112,7 @@ export class NewService {
                 }],
                 attributes: [
                     "id", "title", "description", "cover_image",
-                    "health_id", "created_at"
+                    "health_id", "media_url", "created_at"
                 ],
                 limit,
                 offset,
@@ -144,7 +148,7 @@ export class NewService {
                 }],
                 attributes: [
                     "id", "title", "description", "cover_image",
-                    "created_at"
+                    "media_url", "created_at"
                 ],
                 limit,
                 offset,
@@ -186,7 +190,7 @@ export class NewService {
 
     static async addNews(query: any) {
         try {
-            const { title, description, cover_image, media_url, category_id, health_id, status, view_count = 0 } = query;
+            const { title, description, cover_image, media_url, category_id, health_id, disease_id, status, view_count = 0 } = query;
 
             let parsed_cover_image = cover_image;
             if (cover_image && typeof cover_image === 'string') {
@@ -196,7 +200,7 @@ export class NewService {
 
             const data = await db.Content.create({
                 title, description, cover_image: parsed_cover_image,
-                media_url, category_id, health_id, status, view_count
+                media_url, category_id, health_id, disease_id, status, view_count
             });
             return this.formatImage(data);
         } catch (error: any) {
@@ -206,7 +210,7 @@ export class NewService {
 
     static async updateNews(query: any) {
         try {
-            const { id, title, category_id, description, cover_image, media_url, health_id, status, view_count } = query;
+            const { id, title, category_id, description, cover_image, media_url, health_id, disease_id, status, view_count } = query;
             if (!id) throw new Error("id is required");
             if (!category_id) throw new Error("category_id is required");
 
@@ -216,6 +220,7 @@ export class NewService {
                 description,
                 media_url,
                 health_id,
+                disease_id,
                 status,
                 view_count
             };
@@ -245,7 +250,9 @@ export class NewService {
 
     static async getCategories() {
         try {
-            const data = await db.Category.findAll();
+            const data = await db.Category.findAll({
+                attributes: ["id", "name", "type", "status"]
+            });
             return data;
         } catch (error: any) {
             throw new Error(`getCategories Error: ${error.message}`);
@@ -254,7 +261,9 @@ export class NewService {
 
     static async getHealthCategories() {
         try {
-            const data = await db.HealthCategory.findAll();
+            const data = await db.HealthCategory.findAll({
+                attributes: ["id", "name", "type", "status"]
+            });
             return data;
         } catch (error: any) {
             throw new Error(`getHealthCategories Error: ${error.message}`);
