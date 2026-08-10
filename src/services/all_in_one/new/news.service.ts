@@ -112,7 +112,7 @@ export class NewService {
                 }],
                 attributes: [
                     "id", "title", "description", "cover_image",
-                    "health_id", "media_url", "created_at"
+                    "health_id", "media_url", "created_at", "view_count", "status"
                 ],
                 limit,
                 offset,
@@ -148,7 +148,7 @@ export class NewService {
                 }],
                 attributes: [
                     "id", "title", "description", "cover_image",
-                    "media_url", "created_at"
+                    "media_url", "created_at", "view_count", "status"
                 ],
                 limit,
                 offset,
@@ -245,6 +245,19 @@ export class NewService {
             return data;
         } catch (error: any) {
             throw new Error(`updateNews Error: ${error.message}`);
+        }
+    }
+
+    static async deleteNews(id: number) {
+        try {
+            const item = await db.Content.findOne({ where: { id } });
+            if (!item) {
+                throw new Error("Content not found");
+            }
+            await item.destroy();
+            return { message: "Content deleted successfully" };
+        } catch (error: any) {
+            throw new Error(`deleteNews Error: ${error.message}`);
         }
     }
 

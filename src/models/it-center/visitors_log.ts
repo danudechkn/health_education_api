@@ -13,7 +13,7 @@ class VisitorLog extends Model<
     InferAttributes<VisitorLog>> {
     declare id: CreationOptional<number>;
     declare ip_address: string;
-    declare visit_date: Date | string;
+    declare visit_date: string;
     declare created_at: CreationOptional<Date | null>;
 }
 VisitorLog.init(
@@ -28,7 +28,7 @@ VisitorLog.init(
             allowNull: false,
         },
         visit_date: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
         },
         created_at: {

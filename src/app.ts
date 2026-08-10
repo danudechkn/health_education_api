@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.route";
 import adminRoutes from "./routes/admin.route";
 import authRoutes from "./routes/auth.route";
 import publicRoutes from "./routes/public.route";
+import db from "./models/it-center/index";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
 
+// Route handlers
 app.use("/api", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);

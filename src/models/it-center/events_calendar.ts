@@ -16,6 +16,11 @@ class Event extends Model<
     declare description: string | null;
     declare event_date: Date | string;
     declare status: CreationOptional<boolean | null>;
+    declare color: string | null;
+    declare end_date: Date | string | null;
+    declare event_time: string | null;
+    declare location: string | null;
+    declare organizer: string | null;
 
     static associate(models: any) {
     }
@@ -45,10 +50,30 @@ Event.init(
             allowNull: true,
             defaultValue: 1,
         },
+        color: {
+            type: DataTypes.STRING(50),
+            allowNull: true,
+        },
+        end_date: {
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+        },
+        event_time: {
+            type: DataTypes.STRING(100),
+            allowNull: true,
+        },
+        location: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
+        organizer: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+        },
     },
     {
         sequelize,
-        tableName: "events", // Adjust table name as needed
+        tableName: "events_calendar", // Adjust table name as needed
         timestamps: false, // Disables createdAt/updatedAt as they are not in the schema
     }
 );
