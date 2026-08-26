@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { SurveyService } from "../services/all_in_one/survey/survey.service";
+import { SurveyService } from "../services/survey/survey.service";
 
 export class SurveyController {
     static async addActiveSurvey(req: Request, res: Response) {

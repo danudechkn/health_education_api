@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { DiseasesService } from "../services/all_in_one/diseases/diseases.service";
+import { DiseasesService } from "../services/diseases/diseases.service";
 export class DiseasesController {
     static async ListDiseases(req: Request, res: Response) {
         try {

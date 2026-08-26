@@ -1,5 +1,5 @@
 import { count } from "node:console";
-import db from "../../../models/it-center/index";
+import db from "../../models/it-center/index";
 
 export class NewService {
     private static formatImage(item: any) {

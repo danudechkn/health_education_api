@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { DepartmentService } from "../services/all_in_one/department/department.service";
+import { DepartmentService } from "../services/department/department.service";
 export class DepartmentController {
     static async ListDepartment(req: Request, res: Response) {
         try {

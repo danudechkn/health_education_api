@@ -36,7 +36,7 @@ Category.init(
         type: {
             type: DataTypes.ENUM("news", "media"),
             allowNull: false,
-            defaultValue: "",
+            defaultValue: "news",
         },
         status: {
             type: DataTypes.BOOLEAN,

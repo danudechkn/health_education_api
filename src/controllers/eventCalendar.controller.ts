@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { EventCalendarService } from "../services/all_in_one/eventCalendar/eventCalendar.service";
+import { EventCalendarService } from "../services/eventCalendar/eventCalendar.service";
 
 export class EventCalendarController {
     static async ListEvents(req: Request, res: Response) {

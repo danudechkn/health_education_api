@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { AllInOneController } from "../controllers/all_in_one/allInOne.controller";
 import { NewsController } from "../controllers/news.controller";
 import { SurveyController } from "../controllers/survey.controllers";
 import { DiseasesController } from "../controllers/diseases.Controller";
@@ -17,7 +16,6 @@ const router = Router();
 // router.use(authenticateToken, apiLogger, authorizeRole(1));
 
 // router.get("/mapAll", AllChoiceController.mapAll);
-router.get("/all-in-one", AllInOneController.index);
 
 // News
 router.get("/news", NewsController.ActivityNewindex);

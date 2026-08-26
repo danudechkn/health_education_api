@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { NewService } from "../services/all_in_one/new/news.service";
+import { NewService } from "../services/new/news.service";
 import db from "../models/it-center/index";
 import fs from "fs";
 import path from "path";

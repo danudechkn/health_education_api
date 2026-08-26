@@ -1,4 +1,4 @@
-import db from "../../../models/it-center/index";
+import db from "../../models/it-center/index";
 
 export class DepartmentService {
     static async ListDepartment(query: Record<string, any>) {

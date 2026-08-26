@@ -1,4 +1,4 @@
-import db from "../../../models/it-center/index";
+import db from "../../models/it-center/index";
 import { Op } from "sequelize";
 
 export class SurveyService {
