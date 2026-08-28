@@ -43,8 +43,8 @@ UsersAdmin.init(
     },
     {
         sequelize,
-        tableName: "UsersAdmin",
-        timestamps: true,
+        tableName: "users_admin",
+        timestamps: false,
     }
 );
 
