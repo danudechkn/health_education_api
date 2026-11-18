@@ -34,7 +34,7 @@ module.exports = {
         allowNull: true,
       },
       cover_image: {
-        type: Sequelize.LONGBLOB,
+        type: Sequelize.BLOB("long"),
         allowNull: true,
       },
       media_url: {
