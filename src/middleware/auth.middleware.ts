@@ -1,7 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.JWT_SECRET || "digital-lhe-secret-key-2026";
 
 export interface AuthenticatedRequest extends Request {
   user?: {
@@ -17,6 +17,12 @@ export function authenticateToken(
   res: Response,
   next: NextFunction
 ): void {
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    res.status(500).json({ success: false, message: "JWT_SECRET is not configured in .env" });
+    return;
+  }
+
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -25,7 +31,7 @@ export function authenticateToken(
     return;
   }
 
-  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, jwtSecret, (err, decoded) => {
     if (err) {
       res.status(403).json({ success: false, message: "Invalid or expired token" });
       return;

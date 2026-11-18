@@ -9,5 +9,8 @@ declare namespace env {
     DB_PORT: number;
 
     PORTAPP: string;
+    SUPERADMIN_USER: string;
+    SUPERADMIN_PASS: string;
+    JWT_SECRET: string;
   }
 }

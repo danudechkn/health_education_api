@@ -1,32 +1,45 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcryptjs from "bcryptjs";
 import db from "../models/it-center/index";
 import { recordFailedAttempt, clearAttempts } from "../middleware/loginLimiter.middleware";
 
-const JWT_SECRET = process.env.JWT_SECRET || "digital-lhe-secret-key-2026";
-
 export class AuthController {
   static async login(req: Request, res: Response): Promise<void> {
     try {
       const { user_name, password } = req.body;
       const ip = req.ip || req.socket.remoteAddress || "unknown";
+      const jwtSecret = process.env.JWT_SECRET;
+      const superAdminUser = process.env.SUPERADMIN_USER;
+      const superAdminPass = process.env.SUPERADMIN_PASS;
+
+      if (!jwtSecret) {
+        res.status(500).json({ success: false, message: "JWT_SECRET is not configured in .env" });
+        return;
+      }
 
       if (!user_name || !password) {
         res.status(400).json({ success: false, message: "Username and password are required" });
         return;
       }
 
-      // Hardcoded check for superadmin
-      if (user_name === "superadmin" && password === "super123") {
+      // Check superadmin credentials from .env
+      if (
+        superAdminUser &&
+        superAdminPass &&
+        user_name === superAdminUser &&
+        password === superAdminPass
+      ) {
         clearAttempts(ip, user_name);
         const token = jwt.sign(
           {
-            user_name: "superadmin",
+            user_name: superAdminUser,
             role: "superadmin",
             name: "Super Admin"
           },
-          JWT_SECRET,
+          jwtSecret,
           { expiresIn: "8h" }
         );
 
@@ -36,7 +49,7 @@ export class AuthController {
           data: {
             token,
             user: {
-              user_name: "superadmin",
+              user_name: superAdminUser,
               name: "Super Admin",
               role: "superadmin"
             }
@@ -95,7 +108,7 @@ export class AuthController {
           role: "admin",
           name: admin.name || admin.user_name
         },
-        JWT_SECRET,
+        jwtSecret,
         { expiresIn: "8h" }
       );
 

@@ -37,8 +37,9 @@ export class AdminController {
       }
 
       // Check if username already exists
+      const superAdminUser = process.env.SUPERADMIN_USER || "superadmin";
       const existing = await db.UsersAdmin.findOne({ where: { user_name } });
-      if (existing || user_name === "superadmin") {
+      if (existing || user_name === superAdminUser) {
         res.status(400).json({ success: false, message: "Username is already taken" });
         return;
       }
